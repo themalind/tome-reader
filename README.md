@@ -1,10 +1,10 @@
 # Titel
 
-    TomeReader
+TomeReader
 
 # Beskrivning
 
-    Träd in i TomeReader, där varje bok är en magisk artefakt och din läsning ett episkt äventyr. Som väktare av din bokskatt kan du erövra tomes, anteckna runor (recensioner), och tilldela varje volym ett ädelt betyg. Din samling växer som en skattkammare fylld med legender, mystiska skrifter och drakvaktade manuskript där varje sida du vänder är ett steg närmare att bli en sann Ärkebokmästare över litteraturen. Samla, upptäck och dominera din privata värld av böcker!
+Träd in i TomeReader, där varje bok är en magisk artefakt och din läsning ett episkt äventyr. Som väktare av din bokskatt kan du erövra tomes, anteckna runor (recensioner), och tilldela varje volym ett ädelt betyg. Din samling växer som en skattkammare fylld med legender, mystiska skrifter och drakvaktade manuskript där varje sida du vänder är ett steg närmare att bli en sann Ärkebokmästare över litteraturen. Samla, upptäck och dominera din privata värld av böcker!
 
 # Bygga-bygg och köra
 
@@ -24,3 +24,9 @@
 [ ] Ytterligare en valfri extern modul används i projektet (ex. react-hook-form).
 [ ] Appen ska prata med ett Web-API för att hämta data.
 [ ] Appen ska förberedas för lansering till en Appstore (Deadline samma dag som kursen slutar)
+
+# Komponenter
+
+expo-camera
+expo-image
+expo-file-system
