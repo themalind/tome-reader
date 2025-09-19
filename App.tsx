@@ -1,21 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { createStaticNavigation } from '@react-navigation/native';
+
+import { navigationRef, Stack } from './rootNavigation';
+
+//export const navigationRef = createNavigationContainerRef(); // För att min footer ska fungera på alla screens
+
+const Navigation = createStaticNavigation(Stack);
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>hej hej kolla vad jag lyckats klara!!!!1</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+
+  return (<Navigation ref={navigationRef} />)
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#322468ff',
-    alignItems: 'center',
-    color: 'white',
-    justifyContent: 'center',
-  },
-});
+
