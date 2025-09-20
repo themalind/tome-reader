@@ -3,7 +3,7 @@ export interface Book {
   title: string;
   author: string;
   slug: string;
-  image: any; // ändrat till any eftersom require returnerar en bildreferens
+  image: any;
   review: string;
   grade: number;
 }

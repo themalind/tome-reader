@@ -110,6 +110,7 @@ export default function Camera() {
 
 const styles = StyleSheet.create({
     container: {
+        paddingTop: 30,
         flex: 1,
         justifyContent: 'center',
     },

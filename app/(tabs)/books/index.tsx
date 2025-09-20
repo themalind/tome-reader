@@ -1,12 +1,15 @@
+import { Book, books } from "@/data/books";
+import { router } from "expo-router";
 import { FlatList, Image, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
-import { Book, books } from "../data/books";
-import { navigate } from "../rootNavigation";
 
 export default function Index() {
 
     const bookItem = ({ item }: { item: Book }) => {
         return (
-            <TouchableWithoutFeedback onPress={() => navigate("Book", { id: `${item.id}` })}>
+            <TouchableWithoutFeedback onPress={() => router.push({
+                pathname: '/(tabs)/books/[id]',
+                params: { id: item.id },
+            })}>
                 <View>
                     <Image
                         source={item.image}
