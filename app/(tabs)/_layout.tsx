@@ -9,7 +9,6 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
         tabBarButton: HapticTab,
       }}>
       <Tabs.Screen
@@ -29,10 +28,10 @@ export default function TabLayout() {
       <Tabs.Screen
         name="books"
         options={{
-          title: 'Books',
+          title: 'Your collection',
           tabBarIcon: ({ color }) => <FontAwesome name="book" size={24} color={color} />,
         }}
       />
-    </Tabs>
+    </Tabs >
   );
 }

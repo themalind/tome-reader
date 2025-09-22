@@ -1,4 +1,5 @@
 import { Image, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface Props {
     headerDisplay: string
@@ -6,10 +7,12 @@ interface Props {
 
 export default function Header(props: Props) {
     return (
-        <View style={styles.header}>
-            <Image style={styles.logo} source={require("../assets/images/tomeReaderTransparent.png")} />
-            <Text style={styles.text}>{props.headerDisplay}</Text>
-        </View>
+        <SafeAreaView>
+            <View style={styles.header}>
+                <Image style={styles.logo} source={require("../assets/images/tomeReaderTransparent.png")} />
+                <Text style={styles.text}>{props.headerDisplay}</Text>
+            </View>
+        </SafeAreaView>
     );
 
 }

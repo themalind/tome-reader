@@ -1,5 +1,6 @@
 import { useFonts } from "expo-font";
 import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
+import { books } from "../../data/books"
 
 export default function Index() {
     const [fontsLoaded] = useFonts({
@@ -17,8 +18,9 @@ export default function Index() {
     return (
         <>
             <View style={styles.container}>
+                <Text style={styles.textHeader}>Tome-Reader</Text>
                 <Image style={styles.image} source={require('../../assets/images/tomeReaderOld.png')} />
-                <Text style={styles.text}>Tome-Reader</Text>
+                <Text style={styles.text}>You have {books.length} tomes in your collection</Text>
             </View>
         </>
     );
@@ -38,10 +40,16 @@ const styles = StyleSheet.create({
         width: "80%",
         resizeMode: "contain"
     },
-    text: {
+    textHeader: {
         color: "#D3AF37",
         fontSize: 30,
-        fontFamily: "MedievalSharp-Regular"
+        fontFamily: "MedievalSharp"
+    },
+    text: {
+        color: "#D3AF37",
+        fontSize: 20,
+        textAlign: "center",
+        fontFamily: "MedievalSharp"
     }
 
 })
