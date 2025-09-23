@@ -1,6 +1,10 @@
+import { Book, books } from "@/data/books";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { router } from "expo-router";
+import { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import uuid from 'react-native-uuid';
 import { z } from "zod";
 
 const book = z.object({
@@ -12,18 +16,59 @@ const book = z.object({
     grade: z.number().min(1).max(5),
 });
 
+function slugify(title: string) {
+    let slug = title
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "");
+
+    let uniqueSlug = slug;
+    let i = 1;
+    while (books.find((b) => b.slug === uniqueSlug)) {
+        uniqueSlug = `${slug}-${i++}`;
+    }
+
+    return uniqueSlug;
+}
+
 type FormFields = z.infer<typeof book>
 
 export default function AddNew() {
-    const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormFields>({ resolver: zodResolver(book), });
+    const { control, handleSubmit, reset, formState: { errors, isSubmitting, isSubmitSuccessful } } = useForm<FormFields>({ resolver: zodResolver(book), });
 
     const onSubmit: SubmitHandler<FormFields> = async (data) => {
 
+        const newBook: Book = {
+            id: uuid.v4(),
+            title: data.title,
+            slug: slugify(data.title),
+            author: data.author,
+            grade: data.grade,
+            image: data.image || require("../../assets/images/noImage.png"),
+            review: data.review ?? '',
+            ISBN: data.ISBN ?? '',
+        }
 
+        books.push(newBook);
     }
 
+    useEffect(() => {
+        if (isSubmitSuccessful) {
+            reset();
+            router.push('/books');
+        }
+    }, [isSubmitSuccessful, reset]);
+
     return (
-        <View style={styles.container}>
+        <ScrollView
+            style={styles.container}
+            showsVerticalScrollIndicator={true}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{ flexGrow: 1, paddingBottom: 300 }}
+        >
             <Text style={styles.header}>Add a tome to your collection</Text>
             <Controller
                 control={control}
@@ -51,7 +96,7 @@ export default function AddNew() {
                             style={styles.inputfield}
                             placeholder='Author'
                             onBlur={onBlur}
-                            onChange={onChange}
+                            onChangeText={onChange}
                             value={value}
                         />
                     </View>
@@ -68,7 +113,7 @@ export default function AddNew() {
                             style={styles.inputfield}
                             placeholder='Image'
                             onBlur={onBlur}
-                            onChange={onChange}
+                            onChangeText={onChange}
                             value={value}
                         />
                     </View>
@@ -85,7 +130,7 @@ export default function AddNew() {
                             style={styles.inputfield}
                             placeholder='ISBN'
                             onBlur={onBlur}
-                            onChange={onChange}
+                            onChangeText={onChange}
                             value={value}
                         /></View>
                 )}
@@ -102,7 +147,7 @@ export default function AddNew() {
                             multiline={true}
                             placeholder='Review'
                             onBlur={onBlur}
-                            onChange={onChange}
+                            onChangeText={onChange}
                             value={value}
                         /></View>
                 )}
@@ -121,13 +166,14 @@ export default function AddNew() {
                             keyboardType="numeric"
                             onChangeText={(text) => onChange(text === '' ? undefined : Number(text))}
                             value={value?.toString() || ''}
-                        /></View>
+                        />
+                    </View>
                 )}
                 name='grade'
             />
             {errors.grade && <Text style={styles.error}>{errors.grade.message}</Text>}
             <Button title="submit" disabled={isSubmitting} onPress={handleSubmit(onSubmit)}></Button>
-        </View>
+        </ScrollView>
     );
 }
 
