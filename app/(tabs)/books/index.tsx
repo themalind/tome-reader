@@ -7,52 +7,52 @@ export default function Index() {
 
     const bookItem = ({ item }: { item: Book }) => {
         return (
-            <SafeAreaView>
-                <TouchableWithoutFeedback onPress={() => router.push({
-                    pathname: '/(tabs)/books/[id]',
-                    params: { id: item.id },
-                })}>
-                    <View>
-                        <Image
-                            source={item.image}
-                            alt={item.title}
-                            style={styles.image}
-                            resizeMode="center"
-                        />
-                        <View style={styles.text}>
-                            <Text>{item.title}</Text>
-                            <Text>{item.author}</Text>
-                            <Text>{item.review}</Text>
-                            <Text>{`${item.grade}/5`}</Text>
-                        </View>
+
+            <TouchableWithoutFeedback onPress={() => router.push({
+                pathname: '/(tabs)/books/[id]',
+                params: { id: item.id },
+            })}>
+                <View>
+                    <Image
+                        source={item.image}
+                        style={styles.image}
+                        resizeMode="contain"
+                    />
+                    <View style={styles.text}>
+                        <Text>{item.title}</Text>
+                        <Text>{item.author}</Text>
+                        <Text>{item.review}</Text>
+                        <Text>{`${item.grade}/5`}</Text>
                     </View>
-                </TouchableWithoutFeedback>
-            </SafeAreaView>
+                </View>
+            </TouchableWithoutFeedback>
+
         );
     }
     return (
-        <>
+        <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container}>
-                <FlatList data={books} renderItem={bookItem} keyExtractor={(bookItem: Book) => bookItem.id} />
+                <FlatList
+                    data={books}
+                    renderItem={bookItem}
+                    keyExtractor={(bookItem: Book) => bookItem.id}
+                    showsVerticalScrollIndicator={true}
+                />
             </View>
-        </>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 20,
         flex: 1,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center"
+        paddingHorizontal: 10,
     },
     image: {
         height: 200,
-        width: "98%"
+        width: "100%"
     },
     text: {
         padding: 20
     }
-
 })
