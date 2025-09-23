@@ -1,8 +1,6 @@
-# Welcome to your Expo app 👋
-
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Get started
+## Get started # Bygga-bygg och köra
 
 1. Install dependencies
 
@@ -16,35 +14,33 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+# Titel
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+TomeReader
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+# Beskrivning
 
-## Get a fresh project
+Träd in i TomeReader, där varje bok är en magisk artefakt och din läsning ett episkt äventyr. Som väktare av din bokskatt kan du erövra tomes, anteckna runor (recensioner), och tilldela varje volym ett ädelt betyg. Din samling växer som en skattkammare fylld med legender, mystiska skrifter och drakvaktade manuskript där varje sida du vänder är ett steg närmare att bli en sann Ärkebokmästare över litteraturen. Samla, upptäck och dominera din privata värld av böcker!
 
-When you're ready, run:
+# Krav för godkänt:
 
-```bash
-npm run reset-project
-```
+[ ] Projektet använder minst 4 stycken RN-komponenter och minst 4 stycken Expo komponenter.
+[ ] De utvalda komponenterna MÅSTE antecknas i README filen tillsammans med en lista över genomförda krav.
+[ ] React Navigation används för att skapa en bättre upplevelse i appen.
+[ ] Git & GitHub har använts
+[ ] Projektmappen innehåller en README.md fil - (läs ovan för mer info)
+[ ] Uppgiften lämnas in i tid!
+[ ] Muntlig presentation är genomförd
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+# Krav för väl godkänt:
 
-## Learn more
+[ ] Alla punkter för godkänt är uppfyllda
+[ ] Ytterligare en valfri extern modul används i projektet (ex. react-hook-form).
+[ ] Appen ska prata med ett Web-API för att hämta data.
+[ ] Appen ska förberedas för lansering till en Appstore (Deadline samma dag som kursen slutar)
 
-To learn more about developing your project with Expo, look at the following resources:
+# Komponenter
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+expo-camera
+expo-image
+expo-file-system
