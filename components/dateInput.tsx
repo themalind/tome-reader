@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     input: {
         flexDirection: "row",
         padding: 15,
-        alignItems: "center"
+        alignItems: "center",
     },
     inputTitle: {
         width: 80,
@@ -51,10 +51,12 @@ const styles = StyleSheet.create({
         alignSelf: "flex-start",
     },
     dateButton: {
-        borderColor: "grey",
+        borderBottomColor: "grey",
         borderWidth: 1,
         flex: 1,
         padding: 10,
+        borderRadius: 4,
+        backgroundColor: "#3e4a46"
     },
 
 });

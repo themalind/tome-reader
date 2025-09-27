@@ -167,13 +167,14 @@ export default function AddNew() {
                     <View style={styles.input}>
                         <Text style={styles.inputTitle}>Review: </Text>
                         <TextInput
-                            style={styles.inputfield}
+                            style={[styles.inputfield, { minHeight: 100, maxHeight: 300 }]}
                             multiline={true}
                             placeholder='Review'
                             onBlur={onBlur}
                             onChangeText={onChange}
                             value={value}
-                        /></View>
+                        />
+                    </View>
                 )}
                 name='review'
             />
