@@ -1,5 +1,4 @@
 import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
 import { FontAwesome, FontAwesome6 } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
@@ -10,13 +9,12 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarButton: HapticTab,
-        headerStyle: { backgroundColor: '#b3c1b7ff' }
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          headerShown: false,
+          tabBarIcon: ({ color }) => <FontAwesome6 name="house-chimney" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
@@ -29,7 +27,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="books"
         options={{
-          title: 'Your collection',
+          headerShown: false,
           tabBarIcon: ({ color }) => <FontAwesome name="book" size={24} color={color} />,
         }}
       />

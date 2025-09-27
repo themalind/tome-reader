@@ -1,20 +1,29 @@
-import { Book, books } from "@/data/books";
+import { CameraInput } from '@/components/cameraInput';
+import { DateInput } from '@/components/dateInput';
+import { GradePicker } from "@/components/gradePicker";
+import { Book, mockbooks } from "@/data/books";
+import { saveBookImage } from '@/data/storage';
+import { useBook } from "@/providers/bookContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { Button, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Button, Text, TextInput } from 'react-native-paper';
 import uuid from 'react-native-uuid';
 import { z } from "zod";
 
 const book = z.object({
     title: z.string().min(1),
     author: z.string().min(1),
-    image: z.string().optional(), // Va ska det vara här?
+    imagePath: z.string().optional(),
     ISBN: z.string().optional(),
     review: z.string().optional(),
-    grade: z.number().min(1).max(5),
+    grade: z.number().min(1).max(5).optional(),
+    readDate: z.date(),
 });
+
+type FormFields = z.infer<typeof book>
 
 function slugify(title: string) {
     let slug = title
@@ -27,39 +36,59 @@ function slugify(title: string) {
 
     let uniqueSlug = slug;
     let i = 1;
-    while (books.find((b) => b.slug === uniqueSlug)) {
+    while (mockbooks.find((b) => b.slug === uniqueSlug)) {
         uniqueSlug = `${slug}-${i++}`;
     }
 
     return uniqueSlug;
 }
 
-type FormFields = z.infer<typeof book>
-
 export default function AddNew() {
-    const { control, handleSubmit, reset, formState: { errors, isSubmitting, isSubmitSuccessful } } = useForm<FormFields>({ resolver: zodResolver(book), });
+    const { addNewBook } = useBook();
+    const { control, handleSubmit, reset, formState: { errors, isSubmitting, isSubmitSuccessful } } = useForm<FormFields>({
+        resolver: zodResolver(book),
+        defaultValues: {
+            title: '',
+            author: '',
+            readDate: new Date(),
+            grade: undefined,
+            imagePath: '',
+            ISBN: '',
+            review: '',
+        }
+    });
 
     const onSubmit: SubmitHandler<FormFields> = async (data) => {
+        try {
+            let newBook: Book = {
+                id: uuid.v4(),
+                title: data.title,
+                slug: slugify(data.title),
+                author: data.author,
+                grade: data.grade,
+                readDate: data.readDate,
+                dateAdded: new Date(),
+                imagePath: '',
+                review: data.review ?? '',
+                ISBN: data.ISBN ?? '',
+            }
 
-        const newBook: Book = {
-            id: uuid.v4(),
-            title: data.title,
-            slug: slugify(data.title),
-            author: data.author,
-            grade: data.grade,
-            image: data.image || require("../../assets/images/noImage.png"),
-            review: data.review ?? '',
-            ISBN: data.ISBN ?? '',
+            newBook.imagePath = data.imagePath ? await saveBookImage(data.imagePath, newBook.id) : require("../../assets/images/noImage.png");
+
+            addNewBook(newBook);
+
+        } catch (error) {
+            console.error('Error creating book:', error);
         }
-
-        books.push(newBook);
     }
 
     useEffect(() => {
+
         if (isSubmitSuccessful) {
             reset();
             router.push('/books');
         }
+
     }, [isSubmitSuccessful, reset]);
 
     return (
@@ -106,21 +135,16 @@ export default function AddNew() {
             {errors.author && <Text style={styles.error}>{errors.author.message}</Text>}
             <Controller
                 control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <View style={styles.input}>
-                        <Text style={styles.inputTitle}>Image: </Text>
-                        <TextInput
-                            style={styles.inputfield}
-                            placeholder='Image'
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    </View>
+                name="readDate"
+                render={({ field: { onChange, value } }) => (
+                    <DateInput
+                        value={value || new Date()}
+                        onChange={onChange}
+                        label="Date read:"
+                    />
                 )}
-                name='image'
             />
-            {errors.image && <Text>{errors.image.message}</Text>}
+            {errors.readDate && <Text style={styles.error}>{errors.readDate.message}</Text>}
             <Controller
                 control={control}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -156,23 +180,29 @@ export default function AddNew() {
             {errors.review && <Text style={styles.error}>{errors.review.message}</Text>}
             <Controller
                 control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <View style={styles.input}>
-                        <Text style={styles.inputTitle}>Grade (1-5): </Text>
-                        <TextInput
-                            style={styles.inputfield}
-                            placeholder='Add your grade here'
-                            onBlur={onBlur}
-                            keyboardType="numeric"
-                            onChangeText={(text) => onChange(text === '' ? undefined : Number(text))}
-                            value={value?.toString() || ''}
-                        />
-                    </View>
+                name="grade"
+                render={({ field: { onChange, value } }) => (
+                    <GradePicker
+                        value={value || undefined}
+                        onChange={onChange}
+                        label="Add grade:"
+                    />
                 )}
-                name='grade'
             />
             {errors.grade && <Text style={styles.error}>{errors.grade.message}</Text>}
-            <Button title="submit" disabled={isSubmitting} onPress={handleSubmit(onSubmit)}></Button>
+            <Controller
+                control={control}
+                name="imagePath"
+                render={({ field: { onChange, value } }) => (
+                    <CameraInput
+                        value={value ?? ''}
+                        onChange={onChange}
+                        label="Image:"
+                    />
+                )}
+            />
+            {errors.imagePath && <Text>{errors.imagePath.message}</Text>}
+            <Button mode="contained" disabled={isSubmitting} style={styles.button} onPress={handleSubmit(onSubmit)}> Submit</Button>
         </ScrollView>
     );
 }
@@ -181,8 +211,10 @@ const styles = StyleSheet.create({
     container: {
         padding: 20,
     },
+    button: {
+        margin: 5,
+    },
     header: {
-        color: "#483d18ff",
         fontSize: 20,
         fontFamily: "MedievalSharp"
     },
@@ -192,18 +224,15 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     inputTitle: {
-        textAlign: "center",
-        width: 50,
+        width: 80,
         fontWeight: "500",
+        alignSelf: "flex-start",
     },
     inputfield: {
-        borderColor: "black",
-        borderRightWidth: 1,
-        borderLeftWidth: 1,
-        borderTopWidth: 1,
-        borderBottomWidth: 1,
         flex: 1,
+        height: 40,
     },
+
     error: {
         color: "red",
         fontWeight: "700",

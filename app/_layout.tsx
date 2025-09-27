@@ -11,8 +11,8 @@ import 'react-native-reanimated';
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
-  const theme = colorScheme === "dark" ? AppDarkTheme : AppDefaultTheme
 
+  const theme = colorScheme === "dark" ? AppDarkTheme : AppDefaultTheme
   return (
     // themeprovider är för header, och tabs det som är en del av react navigation.
     // PaperProvider är för designsystemet.
