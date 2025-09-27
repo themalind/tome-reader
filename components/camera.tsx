@@ -1,15 +1,22 @@
 import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
 import { Image } from "expo-image";
 import { useRef, useState } from 'react';
-import { Button, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Text, Button } from 'react-native-paper';
 
 // https://github.com/expo/examples/blob/master/with-camera/App.tsx
 // https://docs.expo.dev/versions/latest/sdk/camera/#camerapictureoptions
 
-export default function Camera() {
+interface CameraProps {
+    selectedValue?: string;
+    onValueChange: (uri: string) => void;
+    onClose?: () => void;
+}
+
+export default function Camera({ selectedValue, onValueChange, onClose }: CameraProps) {
     const [facing, setFacing] = useState<CameraType>('back');
     const [permission, requestPermission] = useCameraPermissions();
-    const [uri, setUri] = useState<string | null>(null);
+    const [uri, setUri] = useState<string | null>(selectedValue || null);
     const ref = useRef<CameraView>(null);
 
     if (!permission) {
@@ -22,7 +29,7 @@ export default function Camera() {
         return (
             <View style={styles.container}>
                 <Text style={styles.message}>We need your permission to show the camera</Text>
-                <Button onPress={requestPermission} title="grant permission" />
+                <Button onPress={requestPermission}>Grant permission</Button>
             </View>
         );
     }
@@ -37,22 +44,7 @@ export default function Camera() {
     };
 
     function savePicture(uri: string) {
-        //save till filsystem 
-
-        // const file = new File(uri);
-
-        // try {
-        //     const tomereaderDir = new Directory(Paths.document, 'tomereader');
-        //     if (!tomereaderDir.exists) tomereaderDir.create();
-        //     const imageDir = new Directory(Paths.document, 'tomereader/newFolder');
-        //     if (!imageDir.exists) tomereaderDir.create();
-
-        //     file.move(new Directory(Paths.document, 'tomereader/newFolder'));
-        //     setUri(file.uri);
-
-        // } catch (error) {
-        //     console.error(error);
-        // }
+        onValueChange(uri);
     }
 
     const renderPicture = (uri?: string) => {
@@ -60,13 +52,18 @@ export default function Camera() {
 
         return (
             <View style={styles.container}>
-                <Button onPress={() => setUri(null)} title="Take another picture" />
-                <Button title="Keep" onPress={() => savePicture(uri)} />
+                <View style={styles.topButtons}>
+                    {onClose && <Button onPress={onClose}>Close</Button>}
+                </View>
                 <Image
                     source={{ uri }}
-                    style={{ width: "90%", height: "90%", alignSelf: "center" }}
+                    style={styles.previewImage}
                     contentFit="contain"
                 />
+                <View style={styles.bottomButtons}>
+                    <Button onPress={() => setUri(null)}>Retake</Button>
+                    <Button onPress={() => savePicture(uri)}>Keep</Button>
+                </View>
             </View>
         );
     };
@@ -77,6 +74,9 @@ export default function Camera() {
 
     return (
         <View style={styles.container}>
+            <View style={styles.topButtons}>
+                {onClose && <Button onPress={onClose}>Close</Button>}
+            </View>
             <CameraView style={styles.camera} facing={facing} ref={ref} />
             <View style={styles.buttonContainer}>
                 <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
@@ -154,5 +154,24 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
         borderRadius: 50,
+    },
+    topButtons: {
+        position: 'absolute',
+        top: 50,
+        left: 20,
+        right: 20,
+        zIndex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+    },
+    bottomButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 20,
+        backgroundColor: 'rgba(0,0,0,0.7)',
+    },
+    previewImage: {
+        flex: 1,
+        width: "100%",
     },
 });
