@@ -33,8 +33,9 @@ export default function Book() {
             contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
         >
             <View style={styles.container}>
-                <DeleteBook book={book} />
+
                 <Surface style={styles.surface}>
+                    <DeleteBook book={book} />
                     <Text style={styles.title} variant="titleLarge">{book.title}</Text>
                     <Text style={styles.author} variant="bodySmall">{book.author}</Text>
                     <Image
