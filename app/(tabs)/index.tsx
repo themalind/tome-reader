@@ -1,8 +1,10 @@
+import { useBook } from "@/providers/bookContext";
 import { useFonts } from "expo-font";
-import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
-import { books } from "../../data/books"
+import { ActivityIndicator, Image, StyleSheet, View } from "react-native";
+import { Text } from 'react-native-paper'
 
 export default function Index() {
+    const { books } = useBook();
     const [fontsLoaded] = useFonts({
         MedievalSharp: require("../../assets/fonts/MedievalSharp-Regular.ttf"),
     });
@@ -19,7 +21,7 @@ export default function Index() {
         <>
             <View style={styles.container}>
                 <Text style={styles.textHeader}>Tome-Reader</Text>
-                <Image style={styles.image} source={require('../../assets/images/tomeReaderOld.png')} />
+                <Image style={styles.image} source={require('../../assets/images/tomeReaderTransparent.png')} />
                 <Text style={styles.text}>You have {books.length} tomes in your collection</Text>
             </View>
         </>
@@ -28,9 +30,8 @@ export default function Index() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: 20,
+        paddingTop: 60,
         flex: 1,
-        backgroundColor: "black",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center"
@@ -41,15 +42,13 @@ const styles = StyleSheet.create({
         resizeMode: "contain"
     },
     textHeader: {
-        color: "#D3AF37",
         fontSize: 30,
+        fontWeight: 500,
         fontFamily: "MedievalSharp"
     },
     text: {
-        color: "#D3AF37",
         fontSize: 20,
         textAlign: "center",
         fontFamily: "MedievalSharp"
     }
-
 })
