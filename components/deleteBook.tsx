@@ -16,15 +16,15 @@ export const DeleteBook: React.FC<DeleteBookProps> = ({ book }) => {
 
     const handleDelete = () => {
         Alert.alert(
-            'Ta bort',
-            `Är du säker på att du vill ta bort ${book.title}?`,
+            'Delete',
+            `Are you sure you want to delete this adventure: ${book.title}?`,
             [
                 {
-                    text: 'Nej',
+                    text: 'No',
                     style: 'cancel'
                 },
                 {
-                    text: 'Ja',
+                    text: 'Yes',
                     style: 'destructive',
                     onPress: async () => {
                         deleteBook(book.id);
