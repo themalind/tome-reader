@@ -7,18 +7,17 @@ interface BookImageProp {
     item: Book;
 }
 
-export const BookImage = (props: BookImageProp) => {
+export const BookImage = ({ style, item }: BookImageProp) => {
     return (
         <>
             {
-                props.item.imagePath === ''
+                item.imagePath === ''
                     ? <NoImage />
-                    : typeof props.item.imagePath === 'string'
-                        ? <Image source={{ uri: props.item.imagePath }} style={props.style} resizeMode="contain" />
-                        : <Image source={props.item.imagePath} style={props.style} resizeMode="contain" />
+                    : typeof item.imagePath === 'string'
+                        ? <Image source={{ uri: item.imagePath }} style={style} resizeMode="contain" />
+                        : <Image source={item.imagePath} style={style} resizeMode="contain" />
             }
         </>
     );
-
 }
 
