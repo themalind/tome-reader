@@ -1,9 +1,8 @@
 import { Book } from "@/data/books";
 import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import React from "react";
-import { Image, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { Surface, Text } from "react-native-paper";
-import { NoImage } from "./noImage";
 import { BookImage } from "./bookImage";
 
 export const BookCard = React.memo(({ item, onPress }: { item: Book, onPress: () => void }) => {

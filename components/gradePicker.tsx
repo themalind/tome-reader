@@ -1,6 +1,6 @@
 import { AppTheme } from '@/theme';
 import { Picker } from '@react-native-picker/picker';
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 
@@ -11,7 +11,6 @@ interface GradePickerProps {
 }
 
 export const GradePicker: React.FC<GradePickerProps> = ({ value, onChange, label }) => {
-    const [showPicker, setShowPicker] = useState(false);
     const theme = useTheme<AppTheme>();
 
     const styles = StyleSheet.create({
@@ -55,7 +54,6 @@ export const GradePicker: React.FC<GradePickerProps> = ({ value, onChange, label
                     selectedValue={value}
                     onValueChange={(itemValue) => {
                         onChange(itemValue);
-                        setShowPicker(false);
                     }}
                     style={styles.picker}
                     dropdownIconColor={theme.colors.onSurface}
