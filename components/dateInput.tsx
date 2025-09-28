@@ -1,7 +1,7 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Text } from 'react-native-paper';
+import { Text, useTheme } from 'react-native-paper';
 
 interface DateInputProps {
     value: Date;
@@ -11,6 +11,31 @@ interface DateInputProps {
 
 export const DateInput: React.FC<DateInputProps> = ({ value, onChange, label }) => {
     const [showPicker, setShowPicker] = useState(false);
+    const theme = useTheme();
+
+    const styles = StyleSheet.create({
+        input: {
+            flexDirection: "row",
+            padding: 15,
+            alignItems: "center",
+        },
+        inputTitle: {
+            width: 80,
+            fontWeight: "500",
+            alignSelf: "flex-start",
+        },
+        dateButton: {
+            borderBottomColor: theme.colors.outline,
+            borderWidth: 1,
+            borderTopColor: theme.colors.surfaceVariant,
+            borderLeftColor: theme.colors.surfaceVariant,
+            borderRightColor: theme.colors.surfaceVariant,
+            flex: 1,
+            padding: 10,
+            borderRadius: 4,
+            backgroundColor: theme.colors.surfaceVariant,
+        },
+    });
 
     return (
         <View style={styles.input}>
@@ -39,24 +64,3 @@ export const DateInput: React.FC<DateInputProps> = ({ value, onChange, label }) 
     );
 };
 
-const styles = StyleSheet.create({
-    input: {
-        flexDirection: "row",
-        padding: 15,
-        alignItems: "center",
-    },
-    inputTitle: {
-        width: 80,
-        fontWeight: "500",
-        alignSelf: "flex-start",
-    },
-    dateButton: {
-        borderBottomColor: "grey",
-        borderWidth: 1,
-        flex: 1,
-        padding: 10,
-        borderRadius: 4,
-        backgroundColor: "#3e4a46"
-    },
-
-});

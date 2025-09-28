@@ -20,7 +20,7 @@ export const CameraInput: React.FC<CameraInputProps> = ({ value, onChange, label
                     onPress={() => setShowCamera(true)}
                 >
                     <Button icon="camera" mode="contained" style={styles.button} theme={{ roundness: 3 }}>
-                        {value ? <FontAwesome5 name="check" size={24} /> : 'Click here to take picture'}
+                        {value ? <FontAwesome5 name="check" size={24} /> : 'Click here to add a picture'}
                     </Button>
                 </TouchableOpacity>
             </View >

@@ -36,9 +36,9 @@ export const GradePicker: React.FC<GradePickerProps> = ({ value, onChange, label
         },
         pickerContainer: {
             flex: 1,
-            borderBottomColor: "grey",
+            borderBottomColor: theme.colors.outline,
             borderBottomWidth: 1,
-            backgroundColor: "#3e4a46",
+            backgroundColor: theme.colors.surfaceVariant,
             borderTopEndRadius: 4,
             borderTopLeftRadius: 4
         },

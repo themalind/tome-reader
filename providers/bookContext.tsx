@@ -35,18 +35,16 @@ export default function BooksProvider(props: PropsWithChildren) {
     }, []);
 
     const deleteBook = async (bookId: string) => {
-
         const updatedBooks = books.filter((b) => b.id !== bookId);
+
         setBooks(updatedBooks);
         await saveBooks(updatedBooks);
     }
-
 
     const addNewBook = async (newBook: Book) => {
         const updatedBooks = [...books, newBook];
 
         await saveBooks(updatedBooks);
-
         setBooks(updatedBooks);
     }
 

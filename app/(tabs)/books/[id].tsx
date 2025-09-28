@@ -46,13 +46,14 @@ export default function Book() {
                     />
                     <View style={styles.text}>
                         <Text variant="titleMedium">Your Thoughts {<MaterialCommunityIcons name="thought-bubble-outline" size={20} />}</Text>
-                        <Text style={styles.text} variant="bodyMedium">{book.review}</Text>
-                        <Text variant="titleSmall">ISBN: </Text>
-                        <Text variant="bodyMedium">{book.ISBN}</Text>
-                    </View>
+                        <Text style={styles.text} variant="bodyMedium">{book.review}</Text></View>
                     <View style={styles.gradeContainer}>
                         <Text variant="titleMedium">You liked it this much 👉 </Text>
                         <Text variant="titleMedium">{book.grade ? `${book.grade}/5` : 'No grade'}</Text>
+                    </View>
+                    <View style={styles.text}>
+                        <Text variant="titleSmall">ISBN: </Text>
+                        <Text variant="bodyMedium">{book.ISBN}</Text>
                     </View>
                 </Surface>
             </View>
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     },
     gradeContainer: {
         justifyContent: "center",
-        flexDirection: "row"
+        flexDirection: "row",
     },
     author: {
         alignSelf: "flex-start",
