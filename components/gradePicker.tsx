@@ -1,7 +1,7 @@
 import { AppTheme } from '@/theme';
 import { Picker } from '@react-native-picker/picker';
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 
 interface GradePickerProps {
@@ -53,7 +53,6 @@ export const GradePicker: React.FC<GradePickerProps> = ({ value, onChange, label
             <View style={styles.pickerContainer}>
                 <Picker
                     selectedValue={value}
-
                     onValueChange={(itemValue) => {
                         onChange(itemValue);
                         setShowPicker(false);

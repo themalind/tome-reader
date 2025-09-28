@@ -73,7 +73,7 @@ export default function AddNew() {
                 ISBN: data.ISBN ?? '',
             }
 
-            newBook.imagePath = data.imagePath ? await saveBookImage(data.imagePath, newBook.id) : require("../../assets/images/noImage.png");
+            newBook.imagePath = data.imagePath ? await saveBookImage(data.imagePath, newBook.id) : '';
 
             addNewBook(newBook);
 

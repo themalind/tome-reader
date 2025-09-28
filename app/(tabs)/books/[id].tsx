@@ -2,9 +2,10 @@ import { DeleteBook } from "@/components/deleteBook";
 import { useBook } from "@/providers/bookContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Surface, Text } from 'react-native-paper';
 
+import { BookImage } from "@/components/bookImage";
 import { useEffect } from 'react';
 
 export default function Book() {
@@ -22,9 +23,6 @@ export default function Book() {
         return null;
     }
 
-    // Stack overflow
-    const imageSource = typeof book.imagePath === 'string' || book.imagePath instanceof String ? { uri: book.imagePath } : book.imagePath;
-
     return (
         <ScrollView
             style={styles.container}
@@ -38,12 +36,7 @@ export default function Book() {
                     <DeleteBook book={book} />
                     <Text style={styles.title} variant="titleLarge">{book.title}</Text>
                     <Text style={styles.author} variant="bodySmall">{book.author}</Text>
-                    <Image
-                        source={imageSource}
-                        alt={book.title}
-                        style={styles.image}
-                        resizeMode="center"
-                    />
+                    <BookImage item={book} style={styles.image} />
                     <View style={styles.text}>
                         <Text variant="titleMedium">Your Thoughts {<MaterialCommunityIcons name="thought-bubble-outline" size={20} />}</Text>
                         <Text style={styles.text} variant="bodyMedium">{book.review}</Text></View>

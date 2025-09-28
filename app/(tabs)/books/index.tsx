@@ -1,63 +1,69 @@
-import { Book } from "@/data/books";
-import { useBook } from "@/providers/bookContext";
-import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
-import { router } from "expo-router";
-import { useCallback } from "react";
-import { FlatList, Image, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
-import { Surface, Text } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { BookCard } from '@/components/bookCard';
+import { Book } from '@/data/books';
+import { useBook } from '@/providers/bookContext';
+import { router } from 'expo-router';
+import * as React from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { Searchbar } from 'react-native-paper';
 
-export default function Index() {
+// https://medium.com/@betomoedano01/search-filter-react-native-search-bar-tutorial-fe3069fa55b5
+
+const Index = () => {
     const { books } = useBook();
-    console.log(books);
+    const [searchText, setSearchText] = React.useState('');
+    const [filteredData, setFilteredData] = React.useState(books);
 
-    const bookItem = useCallback(({ item }: { item: Book }) => {
-        const imageSource = typeof item.imagePath === 'string' || item.imagePath instanceof String ? { uri: item.imagePath } : item.imagePath;
-        return (
-            <TouchableWithoutFeedback onPress={() => router.push({
-                pathname: '/(tabs)/books/[id]',
-                params: { id: item.id },
-            })}>
-                <View style={styles.container}>
-                    <Surface style={styles.surface}>
-                        <Image
-                            source={imageSource}
-                            alt={item.title}
-                            style={styles.image}
-                            resizeMode="center"
-                        />
-                        <Text style={styles.title} variant="titleMedium">{item.title}</Text>
-                        <Text variant="bodySmall">{item.author}</Text>
-                        <Text variant="bodyMedium" style={styles.grade}>
-                            {item.grade ? (
-                                <>
-                                    {`${item.grade}/5`} <FontAwesome name="star" size={15} />
-                                </>
-                            ) : (
-                                <>
-                                    {'No grade yet'} <FontAwesome6 name="sad-tear" size={20} />
-                                </>
-                            )}
-                        </Text>
-                    </Surface>
-                </View>
-            </TouchableWithoutFeedback>
+    const sortedData = React.useMemo( // För att slippa sort() vid varje rendering.
+        () => [...filteredData].sort((a, b) => b.dateAdded.getTime() - a.dateAdded.getTime()),
+        [filteredData]
+    );
 
-        );
-    }, []);
+    React.useEffect(() => {
+        const searchFilterFunction = (text: string) => {
+            if (text) {
+                const textData = text.toUpperCase();
+                const newData = books.filter(item => {
+                    const itemDataTitle = item.title ? item.title.toUpperCase() : '';
+                    const itemDataAuthor = item.author ? item.author.toUpperCase() : '';
+                    return (
+                        itemDataTitle.indexOf(textData) > -1 ||
+                        itemDataAuthor.indexOf(textData) > -1
+                    );
+                });
+                setFilteredData(newData);
+            } else {
+                setFilteredData(books);
+            }
+        }
+
+        searchFilterFunction(searchText);
+    }, [searchText, books])
+
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.container}>
-                <FlatList
-                    data={books.sort((a, b) => b.dateAdded.getTime() - a.dateAdded.getTime())}
-                    renderItem={bookItem}
-                    keyExtractor={(bookItem: Book) => bookItem.id}
-                    showsVerticalScrollIndicator={true}
-                />
-            </View>
-        </SafeAreaView>
+        <View style={styles.container}>
+            <Searchbar
+                placeholder="Search"
+                value={searchText}
+                onChangeText={text => {
+                    setSearchText(text);
+                }}
+                style={{ margin: 10 }}
+            />
+            <FlatList
+                data={sortedData}
+                renderItem={({ item }) => (
+                    <BookCard // Deta är en memokomponent som gör att raderna inte renderas om förrän item ändras.
+                        item={item}
+                        onPress={() => router.push({ pathname: '/(tabs)/books/[id]', params: { id: item.id } })}
+                    />
+                )}
+                keyExtractor={(bookItem: Book) => bookItem.id}
+            />
+        </View>
     );
 }
+
+export default Index;
 
 const styles = StyleSheet.create({
     container: {

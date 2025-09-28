@@ -10,7 +10,6 @@ type BookContextValue = {
     deleteBook: (bookId: string) => Promise<void>;
 };
 
-
 // 2. Skapa kontexten.
 const booksContext = createContext<BookContextValue | undefined>(undefined);
 
