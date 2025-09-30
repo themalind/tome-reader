@@ -3,13 +3,25 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
 import 'react-native-reanimated';
 import LottieView from 'lottie-react-native';
+import { useTheme } from 'react-native-paper';
 
 export default function BookLayout() {
+    const theme = useTheme();
 
     return (
         <>
             <StatusBar style="auto" />
-            <Stack>
+            <Stack
+                screenOptions={{
+                    headerStyle: {
+                        backgroundColor: theme.colors.primary,
+                    },
+                    headerTintColor: '#fff',
+                    headerTitleStyle: {
+                        fontWeight: 'bold',
+                    },
+                }}
+            >
                 <Stack.Screen
                     name="index"
                     options={{
@@ -25,7 +37,7 @@ export default function BookLayout() {
                     }}
                 />
                 <Stack.Screen name="[id]" options={{ title: 'Details' }} />
-            </Stack>
+            </Stack >
         </>
     );
 }

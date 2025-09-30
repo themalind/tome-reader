@@ -2,12 +2,21 @@ import { HapticTab } from '@/components/haptic-tab';
 import { FontAwesome, FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
+import { useTheme } from 'react-native-paper';
 
 export default function TabLayout() {
+  const theme = useTheme();
 
   return (
     <Tabs
       screenOptions={{
+        headerStyle: {
+          backgroundColor: theme.colors.primary,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
         tabBarButton: HapticTab,
       }}>
       <Tabs.Screen
