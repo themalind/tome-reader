@@ -1,13 +1,25 @@
 import { ApiBook } from "@/app/(tabs)/searchApi";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Entypo } from "@expo/vector-icons";
+import LottieView from "lottie-react-native";
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Text, Button, Divider, Modal, Portal, useTheme } from "react-native-paper";
+import {
+    Button,
+    Divider,
+    Modal,
+    Portal,
+    Text,
+    useTheme,
+} from "react-native-paper";
 
 export const ApiItem = ({ item }: { item: ApiBook }) => {
     const [visible, setVisible] = React.useState(false);
+    const [imageLoading, setImageLoading] = React.useState(true); // För att visa lottiefiles när bilden laddas in.
     const theme = useTheme();
-    const showModal = () => setVisible(true);
+    const showModal = () => {
+        setVisible(true);
+        setImageLoading(true);
+    };
     const hideModal = () => setVisible(false);
 
     function bookCover(coverId: string) {
@@ -37,14 +49,34 @@ export const ApiItem = ({ item }: { item: ApiBook }) => {
             height: 200,
             width: "100%",
             resizeMode: "contain",
-
         },
         exitModal: {
-            alignSelf: "flex-end"
-
+            alignSelf: "flex-end",
         },
-
-
+        noImageContainer: {
+            alignSelf: "center",
+            backgroundColor: theme.colors.surfaceDisabled,
+            alignItems: "center",
+            borderWidth: 3,
+            borderColor: theme.colors.onSurface,
+            height: 200,
+            width: 150,
+        },
+        noImageText: {
+            paddingTop: 20,
+            color: theme.colors.onSurface,
+        },
+        loadingContainer: {
+            height: 200,
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: theme.colors.surface,
+        },
+        lottieAnimation: {
+            width: 100,
+            height: 100,
+        },
     });
 
     return (
@@ -54,7 +86,7 @@ export const ApiItem = ({ item }: { item: ApiBook }) => {
                     <Text style={styles.textList}>{item.title}</Text>
                     <Text style={styles.textList}>{item.author_name}</Text>
                 </TouchableOpacity>
-                <Divider />
+                <Divider style={{ height: 3 }} />
             </View>
 
             <Portal>
@@ -66,12 +98,48 @@ export const ApiItem = ({ item }: { item: ApiBook }) => {
                     <Button style={styles.exitModal} onPress={hideModal}>
                         <AntDesign name="close" size={24} color={theme.colors.onSurface} />
                     </Button>
-                    <Image
-                        source={{ uri: bookCover(item.cover_edition_key) }}
-                        style={styles.image}
-                    />
-                    <Text style={styles.textModal} variant="titleMedium">{item.title}</Text>
-                    <Text style={styles.textModal} variant="bodySmall">{item.author_name}</Text>
+                    {item.cover_edition_key ? (
+                        <View>
+                            {imageLoading && (
+                                <View style={styles.loadingContainer}>
+                                    <LottieView
+                                        autoPlay
+                                        loop
+                                        style={styles.lottieAnimation}
+                                        source={require("../assets/animations/LoadingScreen.json")}
+                                    />
+                                </View>
+                            )}
+                            <Image
+                                source={{ uri: bookCover(item.cover_edition_key) }}
+                                style={[
+                                    styles.image,
+                                    imageLoading && { position: "absolute", opacity: 0 },
+                                ]}
+                                onLoad={() => setImageLoading(false)}
+                                onError={() => setImageLoading(false)}
+                            />
+                        </View>
+                    ) : (
+                        <View style={styles.noImageContainer}>
+                            <Text style={styles.noImageText}>No image avaliable </Text>
+                            <Text style={styles.noImageText}>
+                                {
+                                    <Entypo
+                                        name="emoji-sad"
+                                        size={34}
+                                        color={theme.colors.onSurface}
+                                    />
+                                }
+                            </Text>
+                        </View>
+                    )}
+                    <Text style={styles.textModal} variant="titleMedium">
+                        {item.title}
+                    </Text>
+                    <Text style={styles.textModal} variant="bodySmall">
+                        {item.author_name}
+                    </Text>
                 </Modal>
             </Portal>
         </>

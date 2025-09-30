@@ -4,7 +4,12 @@ import {
   Theme,
 } from "@react-navigation/native";
 import merge from "deepmerge";
-import { MD3DarkTheme, MD3LightTheme, MD3Theme, adaptNavigationTheme } from "react-native-paper";
+import {
+  MD3DarkTheme,
+  MD3LightTheme,
+  MD3Theme,
+  adaptNavigationTheme,
+} from "react-native-paper";
 
 const { LightTheme, DarkTheme } = adaptNavigationTheme({
   reactNavigationLight: NavigationDefaultTheme,
@@ -79,7 +84,7 @@ export const AppDarkTheme = merge(CombinedDarkTheme, {
     onError: "rgb(105, 0, 5)",
     errorContainer: "rgb(147, 0, 10)",
     onErrorContainer: "rgb(255, 180, 171)",
-    background: "rgb(25, 28, 27)",
+    background: "rgba(90, 102, 98, 1)",
     onBackground: "rgb(224, 227, 225)",
     surface: "rgb(25, 28, 27)",
     onSurface: "rgb(224, 227, 225)",
