@@ -1,7 +1,7 @@
 import { ApiItem } from "@/components/apiItem";
 import React, { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, FlatList, Image, View } from "react-native";
-import { Searchbar, Text } from "react-native-paper";
+import { ActivityIndicator, FlatList, View } from "react-native";
+import { Searchbar } from "react-native-paper";
 
 export interface ApiBook {
     cover_edition_key: string;
@@ -47,8 +47,25 @@ export default function SearchApi() {
 
                 // Konverteras till json
                 const json = await response.json() as Docs;
-                //datan sätts till responsen
-                setData(json.docs);
+
+                // Filtrera bara böcker på svenska och engelska
+                const filteredBooks = json.docs.filter(book => {
+                    // Kontrollera språk
+                    const hasValidLanguage = book.language && book.language.some(lang =>
+                        lang === 'swe' || lang === 'eng' || lang === 'sv' || lang === 'en'
+                    );
+
+                    // Filtrera bort icke-böcker (tidskrifter, artiklar etc.)
+                    // OpenLibrary använder olika markers för att identifiera böcker
+                    const isBook = !book.key.includes('/periodicals/') &&
+                                  !book.key.includes('/serials/') &&
+                                  book.author_name && book.author_name.length > 0;
+
+                    return hasValidLanguage && isBook;
+                });
+
+                //datan sätts till den filtrerade responsen
+                setData(filteredBooks);
 
             } catch (error: any) {
                 if (error.name === "AbortError") {
@@ -64,11 +81,6 @@ export default function SearchApi() {
         getBookResult();
     }, [searchText]);
 
-    function bookCover(coverId: string): string {
-        console.log(coverId);
-        return `https://covers.openlibrary.org/b/olid/${encodeURIComponent(coverId)}-M.jpg`;
-
-    }
 
     return (<View>
         <Searchbar
@@ -76,6 +88,7 @@ export default function SearchApi() {
             value={inputText}
             onChangeText={text => setInputText(text)}
             onIconPress={() => setSearchText(inputText)}
+            onSubmitEditing={() => setSearchText(inputText)}
             placeholder="Search"
             style={{ margin: 10 }}
         />
