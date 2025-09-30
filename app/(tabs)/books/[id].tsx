@@ -33,18 +33,20 @@ export default function Book() {
             <View style={styles.container}>
 
                 <Surface style={styles.surface}>
-                    <DeleteBook book={book} />
-                    <Text style={styles.title} variant="titleLarge">{book.title}</Text>
+                    <View style={styles.top}>
+                        <Text style={styles.title} variant="titleLarge">{book.title}</Text>
+                        <DeleteBook book={book} />
+                    </View>
                     <Text style={styles.author} variant="bodySmall">{book.author}</Text>
                     <BookImage item={book} style={styles.image} />
                     <View style={styles.text}>
                         <Text variant="titleMedium">Your Thoughts {<MaterialCommunityIcons name="thought-bubble-outline" size={20} />}</Text>
                         <Text style={styles.text} variant="bodyMedium">{book.review}</Text></View>
                     <View style={styles.gradeContainer}>
-                        <Text variant="titleMedium">You liked it this much 👉 </Text>
+                        <Text variant="titleMedium">You graded this 👉 </Text>
                         <Text variant="titleMedium">{book.grade ? `${book.grade}/5` : 'No grade'}</Text>
                     </View>
-                    <View style={styles.text}>
+                    <View style={styles.isbn}>
                         <Text variant="titleSmall">ISBN: </Text>
                         <Text variant="bodyMedium">{book.ISBN}</Text>
                     </View>
@@ -58,27 +60,38 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
     },
+    top: {
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
     surface: {
         padding: 30
     },
     title: {
         alignSelf: "flex-start",
-
+        fontSize: 20,
     },
     image: {
         height: 200,
         width: "100%",
+        resizeMode: "contain",
     },
     text: {
-        padding: 10,
+        paddingTop: 10,
+        paddingBottom: 10,
+
     },
     gradeContainer: {
-        justifyContent: "center",
         flexDirection: "row",
     },
     author: {
         alignSelf: "flex-start",
         paddingBottom: 15,
+    },
+    isbn: {
+        paddingTop: 20,
+        flexDirection: "row",
     }
+
 
 })
