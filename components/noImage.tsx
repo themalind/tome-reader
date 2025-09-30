@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, ImageStyle, StyleProp } from "react-native";
+
 interface NoImageProp {
     style?: StyleProp<ImageStyle>;
 }

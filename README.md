@@ -41,6 +41,25 @@ Träd in i TomeReader, där varje bok är en magisk artefakt och din läsning et
 
 # Komponenter
 
-expo-camera
-expo-image
-expo-file-system
+# Expo
+
+- expo-camera
+- expo-image
+- expo-file-system
+- expo-fonts
+
+# React-Native
+
+- react-uuid
+- react-picker
+- Alert
+- TouchableOpacity
+
+# Tredjeparts-Bibliotek
+
+- LottieFiles
+- React-hook-form
+- Zod
+- react datetimePicker
+- react-async-storage
+- react-native-paper

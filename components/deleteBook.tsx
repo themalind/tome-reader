@@ -49,6 +49,7 @@ export const DeleteBook: React.FC<DeleteBookProps> = ({ book }) => {
 const styles = StyleSheet.create({
     deleteButton: {
         alignSelf: "flex-end",
-        padding: 8,
+        paddingBottom: 10,
+        paddingLeft: 25,
     },
 })

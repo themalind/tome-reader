@@ -106,7 +106,7 @@ export default function AddNew() {
                         <Text style={styles.inputTitle}>Titel: </Text>
                         <TextInput
                             style={styles.inputfield}
-                            placeholder='Titel'
+                            placeholder='Title'
                             onBlur={onBlur}
                             onChangeText={onChange}
                             value={value}

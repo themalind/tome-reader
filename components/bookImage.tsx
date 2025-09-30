@@ -12,7 +12,7 @@ export const BookImage = ({ style, item }: BookImageProp) => {
         <>
             {
                 item.imagePath === ''
-                    ? <NoImage />
+                    ? <NoImage style={style} />
                     : typeof item.imagePath === 'string'
                         ? <Image source={{ uri: item.imagePath }} style={style} resizeMode="contain" />
                         : <Image source={item.imagePath} style={style} resizeMode="contain" />
