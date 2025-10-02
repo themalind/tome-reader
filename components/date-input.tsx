@@ -31,9 +31,7 @@ export const DateInput: React.FC<DateInputProps> = ({
     dateButton: {
       borderBottomColor: theme.colors.outline,
       borderWidth: 1,
-      borderTopColor: theme.colors.surfaceVariant,
-      borderLeftColor: theme.colors.surfaceVariant,
-      borderRightColor: theme.colors.surfaceVariant,
+      borderColor: theme.colors.surfaceVariant,
       flex: 1,
       padding: 10,
       borderRadius: 4,

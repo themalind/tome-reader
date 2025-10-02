@@ -1,11 +1,11 @@
-import { DeleteBook } from "@/components/deleteBook";
+import { DeleteBook } from "@/components/delete-book";
 import { useBook } from "@/providers/bookContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Surface, Text } from "react-native-paper";
 
-import { BookImage } from "@/components/bookImage";
+import { BookImage } from "@/components/book-image";
 import { useEffect } from "react";
 
 export default function Book() {

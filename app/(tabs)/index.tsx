@@ -1,12 +1,14 @@
+import { LoadingAnimation } from "@/components/loading-animation";
 import { useBook } from "@/providers/bookContext";
 import { useFonts } from "expo-font";
 import LottieView from "lottie-react-native";
 import React from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
 
 export default function Index() {
   const { books } = useBook();
+
   const [fontsLoaded] = useFonts({
     MedievalSharp: require("../../assets/fonts/MedievalSharp-Regular.ttf"),
   });
@@ -14,12 +16,7 @@ export default function Index() {
   if (!fontsLoaded) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#D3AF37" />
-        <LottieView
-          autoPlay
-          style={styles.lottieAni}
-          source={require("../../assets/animations/LoadingScreen.json")}
-        />
+        <LoadingAnimation style={styles.lottieLoading} />
       </View>
     );
   }
@@ -43,7 +40,7 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 60,
+    paddingTop: 30,
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
@@ -71,6 +68,11 @@ const styles = StyleSheet.create({
   lottieAni: {
     width: 350,
     height: 350,
-    marginLeft: 20,
+    alignSelf: "center",
+  },
+  lottieLoading: {
+    width: 150,
+    height: 150,
+    alignSelf: "center",
   },
 });

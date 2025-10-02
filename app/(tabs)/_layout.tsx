@@ -2,18 +2,11 @@ import { HapticTab } from "@/components/haptic-tab";
 import { FontAwesome, FontAwesome6, MaterialIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import React from "react";
-import { useTheme } from "react-native-paper";
 
 export default function TabLayout() {
-  const theme = useTheme();
-
   return (
     <Tabs
       screenOptions={{
-        headerStyle: {
-          backgroundColor: theme.colors.inversePrimary,
-        },
-        headerTintColor: "#fff",
         headerTitleStyle: {
           fontWeight: "bold",
         },
@@ -39,7 +32,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="addNew"
+        name="add-new"
         options={{
           title: "Add new book",
           tabBarIcon: ({ color }) => (
@@ -48,7 +41,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="searchApi"
+        name="search-api"
         options={{
           title: "Api",
           tabBarIcon: ({ color }) => (

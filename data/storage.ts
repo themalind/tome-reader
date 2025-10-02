@@ -45,9 +45,9 @@ export const saveBookImage = async (imageUri: string, bookId: string) => {
     const sourceFile = new File(imageUri); // skapa referens till källfilen, den temporära platsen i cachen.
     const destinationFile = new File(Paths.document, `book_${bookId}.jpg`); // Kopiera filen och ge den nytt namn. Paths.document --> permanent dokumentmapp.
 
-    await sourceFile.copy(destinationFile); // Retunera URI
+    await sourceFile.copy(destinationFile);
 
-    return destinationFile.uri;
+    return destinationFile.uri; // Retunera URI
   } catch (error) {
     console.error(error);
   }

@@ -3,7 +3,7 @@ import { FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import React from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import { Surface, Text } from "react-native-paper";
-import { BookImage } from "./bookImage";
+import { BookImage } from "./book-image";
 
 export const BookCard = React.memo(
   ({ item, onPress }: { item: Book; onPress: () => void }) => {

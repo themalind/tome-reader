@@ -1,4 +1,4 @@
-import { BookCard } from "@/components/bookCard";
+import { BookCard } from "@/components/book-card";
 import { Book } from "@/data/books";
 import { useBook } from "@/providers/bookContext";
 import { router } from "expo-router";
@@ -10,7 +10,6 @@ import { Searchbar } from "react-native-paper";
 
 const Index = () => {
   const { books } = useBook();
-  const [searchText, setSearchText] = React.useState("");
   const [filteredData, setFilteredData] = React.useState(books);
 
   const sortedData = React.useMemo(
@@ -22,34 +21,30 @@ const Index = () => {
     [filteredData],
   );
 
-  React.useEffect(() => {
-    const searchFilterFunction = (text: string) => {
-      if (text) {
-        const textData = text.toUpperCase();
-        const newData = books.filter((item) => {
-          const itemDataTitle = item.title ? item.title.toUpperCase() : "";
-          const itemDataAuthor = item.author ? item.author.toUpperCase() : "";
-          return (
-            itemDataTitle.indexOf(textData) > -1 ||
-            itemDataAuthor.indexOf(textData) > -1
-          );
-        });
-        setFilteredData(newData);
-      } else {
-        setFilteredData(books);
-      }
-    };
-
-    searchFilterFunction(searchText);
-  }, [searchText, books]);
+  const searchFilterFunction = (text: string) => {
+    if (!text) {
+      setFilteredData(books);
+      return;
+    }
+    const textData = text.toUpperCase();
+    const newData = books.filter((item) => {
+      const itemDataTitle = item.title ? item.title.toUpperCase() : "";
+      const itemDataAuthor = item.author ? item.author.toUpperCase() : "";
+      return (
+        itemDataTitle.indexOf(textData) > -1 ||
+        itemDataAuthor.indexOf(textData) > -1
+      );
+    });
+    setFilteredData(newData);
+  };
 
   return (
     <View style={styles.container}>
       <Searchbar
         placeholder="Search"
-        value={searchText}
+        value={""}
         onChangeText={(text) => {
-          setSearchText(text);
+          searchFilterFunction(text);
         }}
         style={{ margin: 10 }}
       />

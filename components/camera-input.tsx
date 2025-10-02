@@ -1,6 +1,12 @@
 import { FontAwesome5 } from "@expo/vector-icons";
-import React, { useState } from "react";
-import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  Modal,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  BackHandler,
+} from "react-native";
 import { Button } from "react-native-paper";
 import Camera from "./camera";
 
@@ -16,6 +22,23 @@ export const CameraInput: React.FC<CameraInputProps> = ({
   label,
 }) => {
   const [showCamera, setShowCamera] = useState(false);
+
+  // Hantera Android back-knappen när kameran är öppen
+  useEffect(() => {
+    if (!showCamera) return;
+
+    const backAction = () => {
+      setShowCamera(false);
+      return true; // Förhindra standard-beteende (stänga appen)
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, [showCamera]);
 
   return (
     <>
@@ -35,11 +58,11 @@ export const CameraInput: React.FC<CameraInputProps> = ({
           </Button>
         </TouchableOpacity>
       </View>
-
       <Modal
         visible={showCamera}
         animationType="slide"
         presentationStyle="fullScreen"
+        onRequestClose={() => setShowCamera(false)}
       >
         <Camera
           selectedValue={value}

@@ -1,7 +1,8 @@
+import { getBooksFromApi } from "@/api/book";
 import { ApiItem } from "@/components/apiItem";
-import LottieView from "lottie-react-native";
+import { LoadingAnimation } from "@/components/loading-animation";
 import React, { useEffect, useRef, useState } from "react";
-import { FlatList, View, Text, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 
 export interface ApiBook {
@@ -36,28 +37,12 @@ export default function SearchApi() {
 
       setIsLoading(true);
       try {
-        const response = await fetch(
-          `https://openlibrary.org/search.json?q=${encodeURIComponent(searchText)}`,
-          { signal: abortControllerRef.current?.signal },
+        const bookResult = await getBooksFromApi(
+          searchText,
+          abortControllerRef.current,
         );
 
-        const json = (await response.json()) as Docs;
-
-        const filteredBooks = json.docs.filter((book) => {
-          const hasValidLanguage = book.language?.some(
-            (lang) => lang === "eng" || lang === "swe",
-          );
-
-          const isBook =
-            book.author_name?.length > 0 &&
-            !book.key.includes("/periodicals/") &&
-            !book.key.includes("/serials/") &&
-            (book.edition_count ?? 0) > 0;
-
-          return hasValidLanguage && isBook;
-        });
-
-        setData(filteredBooks);
+        setData(bookResult);
       } catch (error: any) {
         if (error.name === "AbortError") {
           console.log("Aborted");
@@ -70,14 +55,28 @@ export default function SearchApi() {
     };
 
     getBookResult();
+
+    return () => {
+      abortControllerRef.current?.abort();
+    };
   }, [searchText]);
+
+  // Om Man tömmer sökfältet ska resultaten tas bort
+  function handleSearchField(text: string) {
+    setInputText(text);
+
+    if (text === "") {
+      setData([]);
+      setSearchText("");
+    }
+  }
 
   return (
     <View style={styles.container}>
       <Searchbar
         mode="bar"
         value={inputText}
-        onChangeText={setInputText}
+        onChangeText={handleSearchField}
         onIconPress={() => setSearchText(inputText)}
         onSubmitEditing={() => setSearchText(inputText)}
         placeholder="Search"
@@ -85,15 +84,8 @@ export default function SearchApi() {
       />
 
       {isLoading ? (
-        <View style={styles.loadingContainer}>
-          <LottieView
-            autoPlay
-            loop
-            style={styles.lottieAnimation}
-            source={require("../../assets/animations/LoadingScreen.json")}
-          />
-        </View>
-      ) : data.length === 0 ? (
+        <LoadingAnimation style={styles.lottieAnimation} />
+      ) : data.length === 0 && searchText !== "" ? (
         <View style={styles.emptyContainer}>
           <Text>No books found</Text>
         </View>
@@ -127,5 +119,6 @@ const styles = StyleSheet.create({
   lottieAnimation: {
     width: 150,
     height: 150,
+    alignSelf: "center",
   },
 });

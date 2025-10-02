@@ -1,22 +1,15 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import LottieView from "lottie-react-native";
 import { StyleSheet, View } from "react-native";
 import "react-native-reanimated";
-import LottieView from "lottie-react-native";
-import { useTheme } from "react-native-paper";
 
 export default function BookLayout() {
-  const theme = useTheme();
-
   return (
     <>
       <StatusBar style="auto" />
       <Stack
         screenOptions={{
-          headerStyle: {
-            backgroundColor: theme.colors.inversePrimary,
-          },
-          headerTintColor: "#fff",
           headerTitleStyle: {
             fontWeight: "bold",
           },

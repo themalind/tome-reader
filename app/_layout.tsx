@@ -2,8 +2,8 @@ import BooksProvider from "@/providers/bookContext";
 import { AppDarkTheme, AppDefaultTheme } from "@/theme";
 import { ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
-import React from "react";
 import { StatusBar } from "expo-status-bar";
+import React from "react";
 import { useColorScheme } from "react-native";
 import { PaperProvider } from "react-native-paper";
 import "react-native-reanimated";
@@ -20,12 +20,7 @@ export default function RootLayout() {
       <ThemeProvider value={theme}>
         <BooksProvider>
           <StatusBar style="auto" />
-          <Stack
-            screenOptions={{
-              headerStyle: { backgroundColor: theme.colors.inversePrimary },
-              headerTintColor: theme.colors.onSurface,
-            }}
-          >
+          <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           </Stack>
         </BooksProvider>
