@@ -12,6 +12,10 @@ const Index = () => {
   const { books } = useBook();
   const [filteredData, setFilteredData] = React.useState(books);
 
+  React.useEffect(() => {
+    setFilteredData(books);
+  }, [books]);
+
   const sortedData = React.useMemo(
     // För att slippa sort() vid varje rendering.
     () =>
