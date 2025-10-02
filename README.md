@@ -46,7 +46,7 @@ Träd in i TomeReader, där varje bok är en magisk artefakt och din läsning et
 - expo-camera
 - expo-image
 - expo-file-system
-- expo-fonts
+- expo-router
 
 # React-Native
 

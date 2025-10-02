@@ -1,5 +1,5 @@
 import { getBooksFromApi } from "@/api/book";
-import { ApiItem } from "@/components/apiItem";
+import { ApiItem } from "@/components/api-item";
 import { LoadingAnimation } from "@/components/loading-animation";
 import React, { useEffect, useRef, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
