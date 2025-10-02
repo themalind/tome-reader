@@ -2,7 +2,7 @@ import { BookCard } from "@/components/book-card";
 import { Book } from "@/data/books";
 import { useBook } from "@/providers/bookContext";
 import { router } from "expo-router";
-import * as React from "react";
+import { useMemo, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { Searchbar } from "react-native-paper";
 
@@ -10,50 +10,52 @@ import { Searchbar } from "react-native-paper";
 
 const Index = () => {
   const { books } = useBook();
-  const [filteredData, setFilteredData] = React.useState(books);
+  const [filteredData, setFilteredData] = useState(books);
+  const [searchText, setSearchText] = useState("");
 
-  React.useEffect(() => {
-    setFilteredData(books);
-  }, [books]);
-
-  const sortedData = React.useMemo(
+  useMemo(
     // För att slippa sort() vid varje rendering.
-    () =>
-      [...filteredData].sort(
-        (a, b) => b.dateAdded.getTime() - a.dateAdded.getTime(),
-      ),
-    [filteredData],
-  );
+    () => {
+      const sortBooks = (filteredBooks: Book[]) => {
+        return filteredBooks.sort(
+          (a, b) => b.dateAdded.getTime() - a.dateAdded.getTime(),
+        )
+      };
 
-  const searchFilterFunction = (text: string) => {
-    if (!text) {
-      setFilteredData(books);
-      return;
-    }
-    const textData = text.toUpperCase();
-    const newData = books.filter((item) => {
-      const itemDataTitle = item.title ? item.title.toUpperCase() : "";
-      const itemDataAuthor = item.author ? item.author.toUpperCase() : "";
-      return (
-        itemDataTitle.indexOf(textData) > -1 ||
-        itemDataAuthor.indexOf(textData) > -1
-      );
-    });
-    setFilteredData(newData);
-  };
+      const searchFilterFunction = (text: string) => {
+        const textData = text.toUpperCase();
+        return books.filter((item) => {
+          const itemDataTitle = item.title ? item.title.toUpperCase() : "";
+          const itemDataAuthor = item.author ? item.author.toUpperCase() : "";
+          return (
+            itemDataTitle.indexOf(textData) > -1 ||
+            itemDataAuthor.indexOf(textData) > -1
+          );
+        });
+      };
+
+      if (!searchText) {
+        setFilteredData(sortBooks(books));
+        return;
+      }
+
+      setFilteredData(sortBooks(searchFilterFunction(searchText)));
+    },
+    [books, searchText]
+  );
 
   return (
     <View style={styles.container}>
       <Searchbar
         placeholder="Search"
-        value={""}
+        value={searchText}
         onChangeText={(text) => {
-          searchFilterFunction(text);
+          setSearchText(text);
         }}
         style={{ margin: 10 }}
       />
       <FlatList
-        data={sortedData}
+        data={filteredData}
         renderItem={({ item }) => (
           <BookCard // Deta är en memokomponent som gör att raderna inte renderas om förrän item ändras.
             item={item}

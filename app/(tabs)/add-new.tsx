@@ -88,7 +88,7 @@ export default function AddNew() {
         ? await saveBookImage(data.imagePath, newBook.id)
         : "";
 
-      addNewBook(newBook);
+      await addNewBook(newBook);
     } catch (error) {
       console.error("Error creating book:", error);
     }
