@@ -11,6 +11,7 @@ import {
   useTheme,
 } from "react-native-paper";
 import { LoadingAnimation } from "./loading-animation";
+import { NoImage } from "./no-image";
 
 export const ApiItem = ({ item }: { item: ApiBook }) => {
   const [visible, setVisible] = React.useState(false);
@@ -104,10 +105,7 @@ export const ApiItem = ({ item }: { item: ApiBook }) => {
             </View>
           ) : (
             <View>
-              <Image
-                source={require("../assets/images/noImage.png")}
-                style={styles.image}
-              />
+              <NoImage style={styles.image} />
             </View>
           )}
           <Text style={styles.textModal} variant="titleMedium">
