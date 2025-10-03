@@ -51,6 +51,7 @@ Träd in i TomeReader, där varje bok är en magisk artefakt och din läsning et
 - expo-image
 - expo-file-system
 - expo-router
+- expo/vector-icons
 
 # React-Native
 
