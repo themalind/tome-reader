@@ -24,7 +24,6 @@ export const ApiItem = ({ item }: { item: ApiBook }) => {
   const hideModal = () => setVisible(false);
 
   function bookCover(coverId: string) {
-    console.log(coverId);
     return `https://covers.openlibrary.org/b/olid/${encodeURIComponent(coverId)}-M.jpg`;
   }
 

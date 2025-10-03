@@ -1,6 +1,10 @@
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
-## Get started # Bygga-bygg och köra
+# Get started
+
+https://github.com/themalind/tome-reader
+
+# Bygga-bygg och köra
 
 1. Install dependencies
 
@@ -30,7 +34,7 @@ Träd in i TomeReader, där varje bok är en magisk artefakt och din läsning et
 [x] Git & GitHub har använts
 [x] Projektmappen innehåller en README.md fil - (läs ovan för mer info)
 [x] Uppgiften lämnas in i tid!
-[ ] Muntlig presentation är genomförd
+[x] Muntlig presentation är genomförd
 
 # Krav för väl godkänt:
 
